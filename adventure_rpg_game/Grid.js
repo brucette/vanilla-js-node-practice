@@ -8,8 +8,8 @@ export class Grid {
         this.height = height
         this.playerX = playerX
         this.playerY = playerY
-        this.player = new Player("Monkey King", { attack: 10, defense: 5, hp: 20 });
-
+        this.player = new Player();
+        // new Player("Monkey King", { attack: 10, defense: 5, hp: 20 });
         this.grid = [];
         for (let row = 0; row < this.height; row++) {
             let currentRow = [];
@@ -20,12 +20,12 @@ export class Grid {
             this.grid.push(currentRow);
         }
 
-        //player start at bottom left
+        //player starts at bottom left
         this.grid[this.height - 1][0] = new GridItem('🐵', 'player');
         // goal is at top right
         this.grid[0][this.width - 1] = new GridItem('⭐️', 'win');
 
-        this.getDirection();
+        this.startGame();
     }
 
     // display the grid
@@ -39,8 +39,9 @@ export class Grid {
         }
     }
 
-    async getDirection() {
+    async startGame() {
         while (this.player.hp > 0) {
+            console.log('PLAYER:', this.player.hp)
             this.displayGrid();
 
             const direction = await promptPlayer();
@@ -62,14 +63,31 @@ export class Grid {
         }
     }
 
+    generateNextCell() {
+        const chance = Math.random()
+        if (chance < 0.15) {
+            console.log('\n', 'You ran into a monster! 👹', '\n')
+        } else if (chance > 0.20 && chance < 0.35) {
+            console.log('\n', 'You found a weapon! 🔫', '\n')
+        } else {
+            console.log('\n', 'Normal!', '\n')
+        }
+
+    }
+
     // Moving across the grid
     moveRight() {
         if (this.playerX === this.width - 1) {
-            console.log('\n', 'Cannot move there!', '\n');
+            console.log('\n', 'Cannot move right!', '\n');
             return;
         }
 
-        this.grid[this.playerY][this.playerX] = new GridItem('🐾');
+        if (this.grid[this.playerY][this.playerX + 1].type === 'undiscovered') {
+            // randomly choose type of grid object in direction player has chosen:
+            this.generateNextCell()
+        }
+
+        this.grid[this.playerY][this.playerX] = new GridItem('🐾', 'discovered');
         this.playerX += 1;
         this.grid[this.playerY][this.playerX] = new GridItem('🐵');
         return;
@@ -77,11 +95,15 @@ export class Grid {
 
     moveLeft() {
         if (this.playerX === 0) {
-            console.log('\n', 'Cannot move there!', '\n')
+            console.log('\n', 'Cannot move left!', '\n')
             return
         }
 
-        this.grid[this.playerY][this.playerX] = new GridItem('🐾');
+        if (this.grid[this.playerY][this.playerX - 1].type === 'undiscovered') {
+            // randomly choose type of grid object in direction player has chosen:
+            this.generateNextCell()
+        }
+        this.grid[this.playerY][this.playerX] = new GridItem('🐾', 'discovered');
         this.playerX -= 1;
         this.grid[this.playerY][this.playerX] = new GridItem('🐵');
         return
@@ -89,11 +111,16 @@ export class Grid {
 
     moveUp() {
         if (this.playerY === 0) {
-            console.log('\n', 'Cannot move there!', '\n');
+            console.log('\n', 'Cannot move up!', '\n');
             return;
         }
 
-        this.grid[this.playerY][this.playerX] = new GridItem('🐾');
+        if (this.grid[this.playerY - 1][this.playerX].type === 'undiscovered') {
+            // randomly choose type of grid object in direction player has chosen:
+            this.generateNextCell()
+        }
+
+        this.grid[this.playerY][this.playerX] = new GridItem('🐾', 'discovered');
         this.playerY -= 1;
         this.grid[this.playerY][this.playerX] = new GridItem('🐵');
         return;
@@ -101,11 +128,16 @@ export class Grid {
 
     moveDown() {
         if (this.playerY === this.height - 1) {
-            console.log('\n', 'Cannot move there!', '\n');
+            console.log('\n', 'Cannot move down!', '\n');
             return;
         }
 
-        this.grid[this.playerY][this.playerX] = new GridItem('🐾');
+        if (this.grid[this.playerY + 1][this.playerX].type === 'undiscovered') {
+            // randomly choose type of grid object in direction player has chosen:
+            this.generateNextCell()
+        }
+
+        this.grid[this.playerY][this.playerX] = new GridItem('🐾', 'discovered');
         this.playerY += 1;
         this.grid[this.playerY][this.playerX] = new GridItem('🐵');
     }
