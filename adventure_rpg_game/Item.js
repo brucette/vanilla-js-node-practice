@@ -1,16 +1,9 @@
-import { GridItem } from "./GridItem.js";
-
 // Sword or Spider
-class Item extends GridItem {
-    constructor(sprite, type, hp, atk, def ) {
-        super(sprite, type);
-        this.hp = hp
-        this.atk = atk
-        this.def = def
-    }
+class Item {
+    name = 'sword'
+    hp = 7
+    atk = 10
+    def = 6
 }
 
 export default Item;
-
-const chance = Math.random()
-console.log(chance)
