@@ -2,7 +2,7 @@ export default class Player {
     playerStats = {
         hp: 7,
         atk: 10,
-        def: 26
+        def: 10
     }
 
     getPlayerStats() {
@@ -26,22 +26,18 @@ export default class Player {
             // Monster attacks
             let damage = stats.atk - this.playerStats.def;
             this.playerStats.hp = this.playerStats.hp - damage;
-            //console.log('player hp:', this.playerStats.hp)
-            //console.log('dagame by monster:', damage)
 
             // Player attacks
             damage = this.playerStats.def - stats.atk;
             stats.hp = stats.hp - damage;
-            //console.log('monster hp:', stats.hp)
-            //console.log('dagame by player:', damage)
-
         }
+
         winner = this.playerStats.hp > stats.hp;
-        
+
         if (winner) {
-            return "You defeated the monster and increased your defenses!"
+            return " You defeated the monster and increased your defenses!"
         }
 
-        // return "Sorry you lost the game :(";
+        return "Sorry, you were defeated by the monster. You lost the game :(";
     }
 }

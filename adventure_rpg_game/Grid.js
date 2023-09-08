@@ -11,8 +11,8 @@ export class Grid {
         this.playerX = playerX
         this.playerY = playerY
         this.player = new Player();
-        // new Player("Monkey King", { attack: 10, defense: 5, hp: 20 });
         this.grid = [];
+
         for (let row = 0; row < this.height; row++) {
             let currentRow = [];
 
@@ -46,7 +46,7 @@ export class Grid {
             console.log('\n', this.player.getPlayerStats(), '\n')
             this.displayGrid();
 
-            //console.log('\n');
+            console.log('\n');
             const direction = await promptPlayer();
             console.log('\n');
 
@@ -65,7 +65,6 @@ export class Grid {
                     break;
             }
         }
-        return "Sorry you lost the game :(";
     }
 
     generateNextCell() {
@@ -79,8 +78,7 @@ export class Grid {
             this.player.updateStats(new Item);
 
         } else {
-            console.log('\n', 'Normal!', '\n');
-
+            GridItem.describe();
         }
     }
     
@@ -122,7 +120,15 @@ export class Grid {
                 break;
         }
 
-        if (this.grid[yPos][xPos].type === 'undiscovered' && (yPos !== 0 && xPos !== this.width - 1)) {
+        if (yPos === 0 && xPos === this.width - 1) {
+            this.grid[this.playerY][this.playerX] = new GridItem('🐾');
+            this.grid[yPos][xPos] = new GridItem('🐵');
+            this.displayGrid();
+            console.log('\n', '🎆 Congrats! You reached the end of the game!', '\n');
+            process.exit();
+        }
+
+        if (this.grid[yPos][xPos].type === 'undiscovered') {
             // randomly choose type of grid object in direction player has chosen:
             this.generateNextCell();
         }
@@ -133,41 +139,7 @@ export class Grid {
         this.playerY = yPos;
 
         this.grid[yPos][xPos] = new GridItem('🐵');
-
-        if (yPos === 0 && xPos === this.width - 1) {
-            console.log('\n', '🎆 Congrats! You reached the end of the game!', '\n');
-            process.exit();
-        }
     }
-                    
-    // checkIfPossible(direction) {
-    //     switch (direction) {
-    //         case 'Right':
-    //             if (this.playerX === this.width - 1) {
-    //                 console.log('\n', 'Cannot move right!', '\n');
-    //                 return;
-    //             }
-    //             break;
-    //         case 'Left':
-    //             if (this.playerX === 0) {
-    //                 console.log('\n', 'Cannot move left!', '\n')
-    //                 return
-    //             }
-    //             // break;
-    //         case 'Up':
-    //             if (this.playerY === 0) {
-    //                 console.log('\n', 'Cannot move up!', '\n');
-    //                 return;
-    //             }
-    //             break;
-    //         case 'Down':
-    //             if (this.playerY === this.height - 1) {
-    //                 console.log('\n', 'Cannot move down!', '\n');
-    //                 return;
-    //             }
-    //             break;
-    //     }
-    // }
 }
 
 const game = new Grid(7, 5);

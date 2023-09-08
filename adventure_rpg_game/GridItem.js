@@ -1,6 +1,6 @@
 export class GridItem {
     spriteOptions = ['⛰', '🌳', '🌲'];
-    hasSurprise = false;
+    static descriptions = [' Things look calm here', ' The coast is clear', ' Onwards and upwards!'];
 
     constructor(sprite, type="undiscovered") {
         if (!sprite) {
@@ -11,7 +11,9 @@ export class GridItem {
         }
         this.type = type;
     }
-}
 
-// TESTING
-// console.log(new GridItem().hasSurprise)
+    static describe() {
+        const randomDesription = Math.floor(Math.random() * this.descriptions.length);
+        console.log(this.descriptions[randomDesription]);
+    }
+}

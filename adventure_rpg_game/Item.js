@@ -1,9 +1,9 @@
 // Sword or Spider
 class Item {
     name = 'sword'
-    hp = 7
+    hp = 0
     atk = 10
-    def = 6
+    def = 0
 }
 
 export default Item;
