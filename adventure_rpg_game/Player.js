@@ -1,6 +1,6 @@
 export default class Player {
     playerStats = {
-        hp: 7,
+        hp: 9,
         atk: 10,
         def: 10
     }
@@ -21,7 +21,7 @@ export default class Player {
     battle(stats) {
         let winner = false;
 
-        while (this.playerStats.hp > 0 && stats.hp > 0) {
+        while (this.playerStats.hp > 0 || stats.hp > 0) {
 
             // Monster attacks
             let damage = stats.atk - this.playerStats.def;
@@ -30,6 +30,10 @@ export default class Player {
             // Player attacks
             damage = this.playerStats.def - stats.atk;
             stats.hp = stats.hp - damage;
+
+            if (this.playerStats.hp > 0 || stats.hp > 0) {
+                break;
+            }
         }
 
         winner = this.playerStats.hp > stats.hp;

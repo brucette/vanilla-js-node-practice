@@ -1,6 +1,6 @@
 export class GridItem {
     spriteOptions = ['⛰', '🌳', '🌲'];
-    static descriptions = [' Things look calm here', ' The coast is clear', ' Onwards and upwards!'];
+    static descriptions = [' Things look calm here', ' The coast is clear', ' Onward and upward!'];
 
     constructor(sprite, type="undiscovered") {
         if (!sprite) {

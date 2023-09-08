@@ -1,7 +1,7 @@
 class Monster {
-    hp = 5
+    hp = 7
     atk = 18
-    def = 4
+    def = 13
 }
 
 export default Monster;
